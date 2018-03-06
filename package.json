@@ -1,0 +1,15 @@
+{
+  "name": "domainfilecopier",
+  "version": "1.0.0",
+  "description": "Simple file copier to append #affid# to html files for hosting",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jose Marin",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom": "^11.6.2",
+    "mkdirp": "^0.5.1"
+  }
+}
