@@ -25,5 +25,5 @@ const copy = (srcFile, destFile = rp('destFile', 'string')) => {
 };
 
 module.exports = {
-	fileCopy: copy
+    fileCopy: copy
 };

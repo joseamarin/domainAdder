@@ -1,7 +1,7 @@
 {
-  "name": "domainfilecopier",
+  "name": "domainadder",
   "version": "1.0.0",
-  "description": "Simple file copier to append #affid# to html files for hosting",
+  "description": "Simple file copier to copy files and append #affid# to html files for hosting",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

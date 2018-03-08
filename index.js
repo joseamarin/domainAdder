@@ -4,53 +4,51 @@ const readline = require('readline');
 
 const greenDomains = [
     
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
         
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
 ];
 
-const organgeDomains = [
+const orangeDomains = [
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
         
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 
 ];
 
@@ -60,14 +58,12 @@ const getFilePath = () => {
             input: process.stdin,
             output: process.stdout
         });
-        const filePath = rl.question('Enter the file path ', (filePath)=> {
+        const filePath = rl.question('Enter the file path: ', (filePath)=> {
             rl.close();
             resolve(filePath);
         });
     });
 };
-
-getFilePath();
 
 const getUnsub = (filePath) => {
     const rl = readline.createInterface({
@@ -80,18 +76,40 @@ const getUnsub = (filePath) => {
             const regex = /#unsub#/g;
             if (regex.test(content)) {
                 const unsubURL = content.replace(/#unsub#/g, url);
-                fileWrite(filePath, unsubURL).then((data) => {
-                });
+                fileWrite(filePath, unsubURL).then((data) => {});
                 const affids = [1010, 13, 1369, 1370, 1391, 1397, 1400, 1451, 1454, 1455, 1473, 1502, 1623, 1630, 1631, 1632, 1705, 183, 211, 309, 609];
-                affids.forEach((id) => {
-                    fileCopy(filePath, `${filePath.substring(0, filePath.length -5)}-${id}.html`)
-                        .then(() => {
-                            console.log(`${filePath.substring(0, filePath.length -5)}-${id}.html done`)
-                        })
-                        .catch((e) => {
-                            console.log(e)
-                        });
-                });
+                for (let i = 0; i < affids.length; i++) {
+                    fileCopy(filePath, `${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((e) => {
+                        for (let j = 0; j < greenDomains.length; j++) {
+                            if (`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`.split('-')[1].split('.')[0] === greenDomains[j].split('=')[1].split('&')[0]) {
+                                console.log(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`);
+                                console.log(greenDomains[j]);
+                                fileRead(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((content) => {
+                                    const regex = /#url<c=/g;
+                                    if (regex.test(content)) {
+                                        const domain = content.replace(regex, greenDomains[j]);
+                                        fileWrite(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`, domain).then((data) => {}); 
+                                    }
+                                });
+                            }
+                        }
+                        for (let k = 0; k < orangeDomains.length; k++) {
+                            if (`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`.split('-')[1].split('.')[0] === orangeDomains[k].split('=')[1].split('&')[0]) {
+                                console.log(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`);
+                                console.log(orangeDomains[k]);
+                                fileRead(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((content) => {
+                                    const regex = /#url<c=/g;
+                                    if (regex.test(content)) {
+                                        const domain = content.replace(regex, orangeDomains[k]);
+                                        fileWrite(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`, domain).then((data) => {}); 
+                                    }
+                                });
+                            }
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    }); 
+                }
             }
         });
         rl.close();
