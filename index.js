@@ -58,7 +58,7 @@ const getFilePath = () => {
             input: process.stdin,
             output: process.stdout
         });
-        const filePath = rl.question('Enter the file path: ', (filePath)=> {
+        const filePath = rl.question('Enter The File Path: ', (filePath)=> {
             rl.close();
             resolve(filePath);
         });
@@ -71,21 +71,18 @@ const getUnsub = (filePath) => {
         output: process.stdout
     });
     const input = rl.question('Enter The Advertiser Unsubscribe URL: ', (url) => {
-        console.log(`#unsub# will be replaced with ${url}`)
         fileRead(filePath).then((content) => {
             const regex = /#unsub#/g;
             if (regex.test(content)) {
-                const unsubURL = content.replace(/#unsub#/g, url);
+                const unsubURL = content.replace(regex, url);
                 fileWrite(filePath, unsubURL).then((data) => {});
                 const affids = [1010, 13, 1369, 1370, 1391, 1397, 1400, 1451, 1454, 1455, 1473, 1502, 1623, 1630, 1631, 1632, 1705, 183, 211, 309, 609];
                 for (let i = 0; i < affids.length; i++) {
+                    // const regex = /#url<c=/g;
                     fileCopy(filePath, `${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((e) => {
-                        for (let j = 0; j < greenDomains.length; j++) {
+                       /* for (let j = 0; j < greenDomains.length; j++) {
                             if (`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`.split('-')[1].split('.')[0] === greenDomains[j].split('=')[1].split('&')[0]) {
-                                console.log(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`);
-                                console.log(greenDomains[j]);
                                 fileRead(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((content) => {
-                                    const regex = /#url<c=/g;
                                     if (regex.test(content)) {
                                         const domain = content.replace(regex, greenDomains[j]);
                                         fileWrite(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`, domain).then((data) => {}); 
@@ -95,26 +92,42 @@ const getUnsub = (filePath) => {
                         }
                         for (let k = 0; k < orangeDomains.length; k++) {
                             if (`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`.split('-')[1].split('.')[0] === orangeDomains[k].split('=')[1].split('&')[0]) {
-                                console.log(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`);
-                                console.log(orangeDomains[k]);
                                 fileRead(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`).then((content) => {
-                                    const regex = /#url<c=/g;
                                     if (regex.test(content)) {
                                         const domain = content.replace(regex, orangeDomains[k]);
                                         fileWrite(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`, domain).then((data) => {}); 
                                     }
                                 });
                             }
-                        }
+                        }*/
+                        domainAdder(`${filePath.substring(0, filePath.length -5)}-${affids[i]}.html`, affids, greenDomains, orangeDomains); 
                     }).catch((err) => {
                         console.log(err)
-                    }); 
+                    });
                 }
             }
         });
         rl.close();
     });
     return input;
+};
+
+const domainAdder = (file, affids, green, orange) => {
+    const domainList = green.concat(orange)
+    const regex = /#url<c=/g;
+    for (let i = 0; i < domainList.length; i++) {
+        if (`${file.substring(0, file.length -5)}-${affids[i]}.html`.split('-')[1].split('.')[0] === domainList[i].split('=')[1].split('&')[0]) {
+            console.log(`${file.substring(0, file.length -5)}-${affids[i]}.html`);
+            fileRead(`${file.substring(0, file.length -5)}-${affids[i]}.html`).then((file) => {
+                if (regex.test(file)) {
+                    const domain = content.replace(regex, domainList[i]);
+                    fileWrite(`${file.substring(0, file.length -5)}-${affids[i]}.html`, domain).then(() => {});
+                }
+            }).catch((err) => {
+                console.log(err);
+            }); 
+        }
+    }
 };
 
 getFilePath().then((filePath) => {

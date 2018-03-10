@@ -9,7 +9,6 @@
   "author": "Jose Marin",
   "license": "ISC",
   "dependencies": {
-    "jsdom": "^11.6.2",
     "mkdirp": "^0.5.1"
   }
 }
