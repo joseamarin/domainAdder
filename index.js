@@ -4,51 +4,51 @@ const readline = require('readline');
 
 const greenDomains = [
     
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
         
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    'domain'
 
 ];
 
 const orangeDomains = [
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
         
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'domain',
 
-    'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+    'domain'
 
 ];
 
@@ -74,7 +74,6 @@ const getUnsub = (filePath) => {
         output: process.stdout
     });
     const input = rl.question('Enter The Advertiser Unsubscribe URL: ', (url) => {
-        findNReplace(filePath, /#unsub#/g, url);
         fileRead(filePath).then((content) => {
             const regex = /#unsub#/g;
             if (regex.test(content)) {
@@ -127,11 +126,3 @@ getFilePath().then((filePath) => {
         };
     });
 });
-
-/*
-getFilePath().then((filePath) => {
-    findNReplace(filePath, /<img\s{1,}src="0jhkanbe9mxp.jpg"\s{1,}border="0"\s{1,}style="max-width:100%;max-height:100%;display:block;padding:0px;margin:0px;">/g, '');
-    findNReplace(filePath, /s1=>#/g, 's1=');
-    getUnsub(filePath);
-});
-*/

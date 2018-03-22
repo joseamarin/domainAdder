@@ -5,9 +5,9 @@ const rp = (argName, type) => {
 }
 
 const copy = (srcFile, destFile = rp('destFile', 'string')) => {
-	const fileParts = destFile.split('/');
+	const fileParts = destFile.split('/'); // if using windows change to double forward slash \\
 	const fileName = fileParts.pop();
-	const dirPath = fileParts.join('/');
+	const dirPath = fileParts.join('/'); // if using windows change to double forward slash \\
 
 	// before anything, check to see if destFile dir exists
 	const validate = fsPromise.fileCheckDir(dirPath);
